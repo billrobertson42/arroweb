@@ -1,0 +1,15 @@
+group 'arro'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.eclipse.adapter:adapter-server:9.3.14.v20161028'
+}
