@@ -97,12 +97,12 @@ public class RequestAdapter implements Request {
         return new ResponseAdapter(request, attributes, status);
     }
 
-    private List<CookieData> getCookie(HttpServletRequest baseRequest) {
+    private List<RequestCookieAdapter> getCookie(HttpServletRequest baseRequest) {
         Cookie[] cookies = baseRequest.getCookies();
-        List<CookieData> list = new ArrayList<>();
+        List<RequestCookieAdapter> list = new ArrayList<>();
         if(cookies != null) {
             for(int c = 0; c<cookies.length; ++c) {
-                list.add(new CookieData(cookies[c]));
+                list.add(new RequestCookieAdapter(cookies[c]));
             }
         }
         return Collections.unmodifiableList(list);

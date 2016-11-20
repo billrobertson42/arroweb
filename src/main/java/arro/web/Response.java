@@ -48,7 +48,7 @@ public interface Response {
 
     public List<? extends ResponseCookie> getCookies();
 
-    public ResponseCookie setCookie(String name, String value, String path, int maxAge);
+    public ResponseCookie setCookie(String name, String domain);
 
     Map<String, Object> getAttributes();
 

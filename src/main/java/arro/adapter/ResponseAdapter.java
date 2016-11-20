@@ -9,12 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 public class ResponseAdapter implements Response {
-
     private final HashMap<String, List<String>> headers = new HashMap<>();
     private final HashMap<String, Object> attributes;
     private final HttpServletRequest request;
 
-    private List<WrappedCookie> cookies;
+    private List<ResponseCookieAdapter> cookies;
     private Object body;
     private Serializer customSerializer;
     private int status;
@@ -44,10 +43,8 @@ public class ResponseAdapter implements Response {
     }
 
     @Override
-    public ResponseCookie setCookie(String name, String value, String path, int maxAge) {
-        WrappedCookie wc = new WrappedCookie(name, value);
-        wc.setPath(path);
-        wc.setMaxAge(maxAge);
+    public ResponseCookie setCookie(String name, String value) {
+        ResponseCookieAdapter wc = new ResponseCookieAdapter(name, value);
         getCookies();
         cookies.add(wc);
         return wc;
@@ -108,12 +105,12 @@ public class ResponseAdapter implements Response {
         return Optional.ofNullable(customSerializer);
     }
 
-    private List<WrappedCookie> getCookies(HttpServletRequest baseRequest) {
+    private List<ResponseCookieAdapter> getCookies(HttpServletRequest baseRequest) {
         Cookie[] cookies = baseRequest.getCookies();
-        List<WrappedCookie> ck = new ArrayList<>();
+        List<ResponseCookieAdapter> ck = new ArrayList<>();
         if (cookies != null) {
             for (int c = 0; c < cookies.length; ++c) {
-                ck.add(new WrappedCookie(cookies[c]));
+                ck.add(new ResponseCookieAdapter(cookies[c]));
             }
         }
         return ck;

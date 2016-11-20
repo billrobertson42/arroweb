@@ -74,10 +74,13 @@ public class SingleList implements List<String> {
     @Override
     public boolean containsAll(Collection<?> c) {
         if (c != null) {
-            Iterator<?> it = c.iterator();
-            return it.hasNext() && value.equals(it.next()) && !it.hasNext();
+            for(Object o: c) {
+                if(!contains(o)) {
+                    return false;
+                }
+            }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -211,6 +214,28 @@ public class SingleList implements List<String> {
         if (fromIndex == 0 && toIndex == 1) {
             return this;
         }
+        else if(fromIndex == 0 && toIndex == 0) {
+            return Collections.emptyList();
+        }
         throw new IndexOutOfBoundsException(fromIndex + "," + toIndex);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !(o instanceof List)) {
+            return false;
+        }
+
+        List other = (List) o;
+        return other.size() == 1 && Objects.equals(other.get(0), value);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
     }
 }
